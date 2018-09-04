@@ -1,0 +1,1 @@
+java -jar fxcalculator-1.0.jar

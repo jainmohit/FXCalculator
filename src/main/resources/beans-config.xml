@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans 
+			http://www.springframework.org/schema/beans/spring-beans.xsd 
+			http://www.springframework.org/schema/context
+			http://www.springframework.org/schema/context/spring-context.xsd">
+
+	<context:property-placeholder location="classpath:application.properties" />
+
+	<bean id="fxCalculator" class="com.anz.fxcalculator.FXCalculator"
+		init-method="initializeContainers">
+		<property name="rateContainer" ref="conversionRateContainer" />
+		<property name="crossingContainer" ref="crossingContainer" />
+		<property name="precisionContainer" ref="precisionContainer" />
+		<property name="containerInitializer" ref="containerInitializer" />
+	</bean>
+
+	<bean id="conversionRateContainer"
+		class="com.anz.fxcalculator.container.CurrencyConversionRateContainer">
+	</bean>
+
+	<bean id="crossingContainer"
+		class="com.anz.fxcalculator.container.CurrencyCrossingContainer">
+	</bean>
+
+	<bean id="precisionContainer"
+		class="com.anz.fxcalculator.container.CurrencyDecimalPrecisionContainer">
+	</bean>
+
+	<bean id="containerInitializer"
+		class="com.anz.fxcalculator.loader.FXPropertyFileContainerInitializer">
+		<property name="conversionRateParser" ref="conversionRateParser" />
+		<property name="decimalPrecisionParser" ref="precisionParser" />
+	</bean>
+
+	<bean id="precisionParser"
+		class="com.anz.fxcalculator.parser.DecimalPrecisionFileParser">
+		<property name="configFileName" value="${decimalprecision.file}" />
+	</bean>
+
+	<bean id="conversionRateParser" class="com.anz.fxcalculator.parser.ConversionRateFileParser">
+		<property name="configFileName" value="${currencypair.file}" />
+	</bean>
+
+
+</beans>
